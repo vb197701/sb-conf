@@ -1,4 +1,4 @@
-// sing-box v1.10.x
+// sing-box v1.10.x (注意：在正式的配置中不能使用注释)
 {
   "dns": {
     "servers": [
