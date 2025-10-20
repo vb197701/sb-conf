@@ -30,14 +30,17 @@
       {
         "outbound": "any",
         "server": "dns_resolver"
+        // 注释：对于任何出站连接（不管是直接连接还是通过代理），使用 "dns_resolver" 服务器进行 DNS 解析（这一句主要用来解析代理节点本身的 IP 地址）。
       },
       {
         "clash_mode": "direct",
         "server": "dns_direct"
+        // 注释：在直连模式（不经过代理）下，使用 "dns_direct" 服务器进行 DNS 解析。
       },
       {
         "clash_mode": "global",
         "server": "dns_proxy"
+        // 注释：在全局代理模式下，使用 "dns_proxy" 服务器进行 DNS 解析。
       },
       {
         "process_name": [
@@ -53,6 +56,7 @@
           "kubectl"
         ],
         "server": "dns_direct"
+        // 注释：当特定的进程（如 TencentMeeting、WeChat 等）发起 DNS 请求时，使用 "dns_direct" 服务器进行直连 DNS 解析。
       },
       {
         "domain_suffix": [
@@ -62,6 +66,7 @@
           "cdn.jsdelivr.net"
         ],
         "server": "dns_direct"
+        // 注释：对于特定后缀的域名（如 icloudnative.io 等），使用 "dns_direct" 服务器进行直连 DNS 解析。
       },
       {
         "process_name": [
@@ -69,6 +74,7 @@
           "Dropbox"
         ],
         "server": "dns_proxy"
+        // 注释：当 Dropbox 相关进程发起 DNS 请求时，使用 "dns_proxy" 服务器通过代理进行 DNS 解析。
       },
       {
         "package_name": [
@@ -78,14 +84,17 @@
           "org.telegram.plus"
         ],
         "server": "dns_proxy"
+        // 注释：对于特定的 Android 应用包名（如 YouTube、Telegram 等），使用 "dns_proxy" 服务器通过代理进行 DNS 解析。
       },
       {
         "rule_set": "geosite-geolocation-!cn",
         "server": "dns_proxy"
+        // 注释：对于 geosite 数据库中定义的非中国地区的地理位置相关的域名，使用 "dns_proxy" 服务器通过代理进行 DNS 解析。
       },
       {
         "rule_set": "Global",
         "server": "dns_proxy"
+        // 注释：对于定义在 "Global" 规则集中的域名，使用 "dns_proxy" 服务器通过代理进行 DNS 解析。
       },
       {
         "rule_set": [
@@ -98,9 +107,11 @@
           "geoip-netflix"
         ],
         "server": "dns_proxy"
+        // 注释：对于特定的服务和地理位置相关的域名（如 YouTube、Netflix、谷歌、Telegram 相关的域名），使用 "dns_proxy" 服务器通过代理进行 DNS 解析。
       }
     ],
     "final": "dns_direct"
+    // 注释：如果上述规则都不适用，则默认使用 "dns_direct" 服务器进行直连 DNS 解析。
   },
   "ntp": {
     "enabled": true,
@@ -185,64 +196,64 @@
   ],
   "outbounds": [
     {
-      "type": "selector",
-      "tag": "select",
+      "type": "selector", // 类型为选择器，用于在多个出站中选择一个
+      "tag": "select", // 标签名为 "select"
       "outbounds": [
-        "trojan-out"
+        "trojan-out" // 可选择的出站列表，这里只有 "trojan-out"
       ],
-      "default": "trojan-out"
+      "default": "trojan-out" // 默认选择的出站为 "trojan-out"
     },
     {
-      "type": "selector",
-      "tag": "openai",
+      "type": "selector", // 同样是选择器类型
+      "tag": "openai", // 标签名为 "openai"
       "outbounds": [
-        "trojan-out"
+        "trojan-out" // 可选择的出站仍然是 "trojan-out"
       ],
-      "default": "trojan-out"
+      "default": "trojan-out" // 默认选择的出站同样是 "trojan-out"
     },
     {
-      "type": "selector",
-      "tag": "tiktok",
+      "type": "selector", // 选择器类型
+      "tag": "tiktok", // 标签名为 "tiktok"
       "outbounds": [
-        "trojan-out"
+        "trojan-out" // 可选择的出站是 "trojan-out"
       ],
-      "default": "trojan-out"
+      "default": "trojan-out" // 默认选择的出站为 "trojan-out"
     },
     {
-      "type": "trojan",
-      "tag": "trojan-out",
-      "server": "199.180.115.155",
-      "server_port": 9443,
-      "password": "5iFHKMrn9Ez//VKh6zChTA==",
+      "type": "trojan", // 类型为 Trojan
+      "tag": "trojan-out", // 标签名为 "trojan-out"
+      "server": "xxxxxxxx", // Trojan 服务器地址
+      "server_port": 9443, // Trojan 服务器端口
+      "password": "xxxxxxxx", // Trojan 连接密码
       "tls": {
-        "enabled": true,
-        "server_name": "www.example.com",
-        "insecure": true,
+        "enabled": true, // 启用 TLS 加密
+        "server_name": "xxxxxxxx", // TLS 服务器名称
+        "insecure": true, // 不验证 TLS 证书，用于自签名证书
         "utls": {
-          "fingerprint": "chrome"
+          "fingerprint": "chrome" // 使用 Chrome 的 TLS 指纹
         }
       },
       "multiplex": {
-        "protocol": "h2mux",
-        "max_connections": 4,
-        "min_streams": 4
+        "protocol": "h2mux", // 使用 h2mux 多路复用协议
+        "max_connections": 4, // 最大连接数为 4
+        "min_streams": 4 // 每个连接的最小流数为 4
       },
       "transport": {
-        "type": "grpc",
-        "service_name": "TunService"
+        "type": "grpc", // 传输协议为 gRPC
+        "service_name": "TunService" // gRPC 服务名称
       }
     },
     {
-      "type": "direct",
-      "tag": "direct"
+      "type": "direct", // 直连类型，不通过代理直接访问
+      "tag": "direct" // 标签名为 "direct"
     },
     {
-      "type": "block",
-      "tag": "block"
+      "type": "block", // 阻止类型，用于拦截流量
+      "tag": "block" // 标签名为 "block"
     },
     {
-      "type": "dns",
-      "tag": "dns-out"
+      "type": "dns", // DNS 类型，用于 DNS 查询
+      "tag": "dns-out" // 标签名为 "dns-out"
     }
   ],
   "route": {
